@@ -3,4 +3,6 @@
 *.py[co]
 .env
 .ropeproject
+.coverage
 dist
+.tox

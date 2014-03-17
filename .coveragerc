@@ -1,0 +1,11 @@
+[report]
+omit=
+    mouse/six.py
+    mouse/tests/*
+source=mouse
+
+[run]
+omit=
+    mouse/six.py
+    mouse/tests/*
+source=mouse
