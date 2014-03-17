@@ -1,2 +1,6 @@
-﻿.ropeproject
-.ropeproject/
+﻿*.egg-info
+*.egg-info/
+*.py[co]
+.env
+.ropeproject
+dist
