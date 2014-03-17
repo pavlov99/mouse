@@ -1,8 +1,7 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 import os
 from setuptools import setup, find_packages
-from pmll import version
+from mouse import version
 
 # Import multiprocessing to prevent test run problem. In case of nosetests
 # (not nose2) there is probles, for details see:
@@ -20,7 +19,8 @@ def read(fname):
     except IOError:
         return ""
 
-install_requires = read("requirements.txt").split()
+install_requires = [l for l in read('requirements.txt').split('\n')
+                    if l and not l.startswith('#')]
 
 setup(
     name="mouse",
@@ -29,12 +29,14 @@ setup(
     # test_suite="nose2.collector.collector",
     test_suite="nose.collector",
     tests_require=["nose"],
+    install_requires=install_requires,
 
     # metadata for upload to PyPI
     author="Kirill Pavlov",
     author_email="kirill.pavlov@phystech.edu",
     url="https://github.com/pavlov99/mouse",
     description="Cheddargetter.com client implementation",
+    long_description=read('README.rst'),
 
     # Full list:
     # https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -46,7 +48,8 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.2",
-        "Topic :: Software Development :: Libraries",
+        "Programming Language :: Python :: 3.3",
+        "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     license="MIT",
 )
