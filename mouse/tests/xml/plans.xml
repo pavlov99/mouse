@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plans>
+  <plan id="e6eac530-e5e9-11df-86d5-40407c9117fd" code="FREE">
+    <name>Free</name>
+    <description>This one is free!</description>
+    <isActive>1</isActive>
+    <isFree>1</isFree>
+    <trialDays>0</trialDays>
+    <billingFrequency>monthly</billingFrequency>
+    <billingFrequencyPer>month</billingFrequencyPer>
+    <billingFrequencyUnit>months</billingFrequencyUnit>
+    <billingFrequencyQuantity>1</billingFrequencyQuantity>
+    <setupChargeCode>FREE_SETUP</setupChargeCode>
+    <setupChargeAmount>0.00</setupChargeAmount>
+    <recurringChargeCode>FREE_RECURRING</recurringChargeCode>
+    <recurringChargeAmount>0.00</recurringChargeAmount>
+    <createdDatetime>2010-11-01T18:57:40+00:00</createdDatetime>
+    <items>
+      <item id="e6ef5cee-e5e9-11df-86d5-40407c9117fd" code="PROJECTS">
+        <name>Projects</name>
+        <quantityIncluded>2</quantityIncluded>
+        <isPeriodic>1</isPeriodic>
+        <overageAmount>0.00</overageAmount>
+        <createdDatetime>2010-11-01T18:57:41+00:00</createdDatetime>
+      </item>
+      <item id="e6ef5e60-e5e9-11df-86d5-40407c9117fd" code="USERS">
+        <name>Users</name>
+        <quantityIncluded>2</quantityIncluded>
+        <isPeriodic>1</isPeriodic>
+        <overageAmount>0.00</overageAmount>
+        <createdDatetime>2010-11-01T18:57:41+00:00</createdDatetime>
+      </item>
+    </items>
+  </plan>
+  <plan id="e6eac5ee-e5e9-11df-86d5-40407c9117fd" code="PAID">
+    <name>Paid</name>
+    <description>This is a paid plan!</description>
+    <isActive>1</isActive>
+    <isFree>0</isFree>
+    <trialDays>0</trialDays>
+    <billingFrequency>monthly</billingFrequency>
+    <billingFrequencyPer>month</billingFrequencyPer>
+    <billingFrequencyUnit>months</billingFrequencyUnit>
+    <billingFrequencyQuantity>1</billingFrequencyQuantity>
+    <setupChargeCode>PAID_SETUP</setupChargeCode>
+    <setupChargeAmount>0.00</setupChargeAmount>
+    <recurringChargeCode>PAID_RECURRING</recurringChargeCode>
+    <recurringChargeAmount>19.99</recurringChargeAmount>
+    <createdDatetime>2010-11-01T18:57:40+00:00</createdDatetime>
+    <items>
+      <item id="e6ef5cee-e5e9-11df-86d5-40407c9117fd" code="PROJECTS">
+        <name>Projects</name>
+        <quantityIncluded>5</quantityIncluded>
+        <isPeriodic>1</isPeriodic>
+        <overageAmount>4.00</overageAmount>
+        <createdDatetime>2010-11-01T18:57:41+00:00</createdDatetime>
+      </item>
+      <item id="e6ef5e60-e5e9-11df-86d5-40407c9117fd" code="USERS">
+        <name>Users</name>
+        <quantityIncluded>5</quantityIncluded>
+        <isPeriodic>1</isPeriodic>
+        <overageAmount>2.50</overageAmount>
+        <createdDatetime>2010-11-01T18:57:41+00:00</createdDatetime>
+      </item>
+    </items>
+  </plan>
+</plans>
