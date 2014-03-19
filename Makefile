@@ -40,7 +40,8 @@ upload:
 .PHONY: test
 # target: test - Runs tests
 test: clean
-	$(PYTHON) setup.py test
+	@tox -e py33
+	#$(PYTHON) setup.py test
 
 $(ENV):
 	virtualenv --no-site-packages .env
