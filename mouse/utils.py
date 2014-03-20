@@ -55,3 +55,9 @@ def get_partly_formated_string(s, kwargs):
         kw: kwargs.get(kw) if kw in kwargs else "{" + str(kw) + "}"
         for kw in get_string_kwargs(s)
     })
+
+
+def namedtuple_as_dict(obj):
+    return {
+        k: [namedtuple_as_dict(x) for x in v] if isinstance(v, list) else v for k, v in obj._asdict()
+    }
