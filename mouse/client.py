@@ -37,7 +37,13 @@ class Client(object):
             params=params,
             auth=HTTPBasicAuth(self.username, self.password)
         )
+        #response.raise_for_status()
         return response
+
+    @property
+    def methods(self):
+        """ Return available methods."""
+        return sorted(self.REQUEST_MAP.keys())
 
     def __getattr__(self, method_name):
         if method_name in self.REQUEST_MAP:

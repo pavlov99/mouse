@@ -7,6 +7,10 @@ except ImportError:
         import xml.etree.ElementTree as etree
 
 from collections import namedtuple
+from decimal import Decimal
+import dateutil.parser
+
+datetime_type = lambda x: x if x is None else dateutil.parser.parse(x)
 
 
 class CheddargetterParser(object):
@@ -18,22 +22,58 @@ class CheddargetterParser(object):
 
     """
 
+    CONVERTER = {
+        "isActive": bool,
+        "isFree": bool,
+        "isPeriodic": bool,
+        "isVatExempt": bool,
+        "trialDays": int,
+        "billingFrequencyQuantity": int,
+        "setupChargeAmount": Decimal,
+        "recurringChargeAmount": Decimal,
+        "quantityIncluded": Decimal,
+        "overageAmount": Decimal,
+        "quantity": Decimal,
+        "eachAmount": Decimal,
+        "createdDatetime": datetime_type,
+        "firstContactDatetime": datetime_type,
+        "modifiedDatetime": datetime_type,
+        "ccExpirationDate": datetime_type,
+        "canceledDatetime": datetime_type,
+        "billingDatetime": datetime_type,
+    }
+
+    @classmethod
+    def parse_to_class(cls, element):
+        item = dict(
+            [cls.parse(field) for field in element.getchildren()] +
+            element.items()
+        )
+        class_ = namedtuple(element.tag.capitalize(), item.keys())
+        return class_(**item)
+
     @classmethod
     def parse(cls, root):
         children = root.getchildren()
         if not children:
-            return (root.tag, root.text)
+            return (root.tag, cls.CONVERTER.get(root.tag, str)(root.text))
         else:
-            items = []
-            for child in children:
-                item = dict(
-                    [cls.parse(field) for field in child.getchildren()] +
-                    child.items()
-                )
-                class_ = namedtuple(child.tag.capitalize(), item.keys())
-                items.append(class_(**item))
+            if root.tag == "gatewayAccount":
+                return (root.tag, cls.parse_to_class(root))
+            else:
+                items = [cls.parse_to_class(child) for child in children]
+                return (root.tag, items)
 
-            return (root.tag, items)
+    @classmethod
+    def parse_xml(cls, xml):
+        return cls.parse(etree.fromstring(xml))
+
+    @classmethod
+    def parse_error(cls, error):
+        #error.attrib["auxCode"]
+        #error.attrib["id"]
+        #error.attrib["code"]
+        return error.text
 
 
 root = etree.fromstring(open("mouse/tests/xml/plans.xml").read())
