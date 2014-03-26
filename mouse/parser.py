@@ -56,7 +56,10 @@ class CheddargetterParser(object):
     def parse(cls, root):
         children = root.getchildren()
         if not children:
-            return (root.tag, cls.CONVERTER.get(root.tag, str)(root.text))
+            value = root.text
+            if value is not None:
+                value = cls.CONVERTER.get(root.tag, str)(value.encode("utf8"))
+            return (root.tag, value)
         else:
             if root.tag == "gatewayAccount":
                 return (root.tag, cls.parse_to_class(root))
@@ -74,8 +77,3 @@ class CheddargetterParser(object):
         #error.attrib["id"]
         #error.attrib["code"]
         return error.text
-
-
-root = etree.fromstring(open("mouse/tests/xml/plans.xml").read())
-print(etree.tostring(root))
-plans = CheddargetterParser.parse(root)[1]
