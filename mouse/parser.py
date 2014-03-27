@@ -6,9 +6,10 @@ except ImportError:
     except ImportError:
         import xml.etree.ElementTree as etree
 
-from collections import namedtuple
 from decimal import Decimal
 import dateutil.parser
+from .models import Factory
+
 
 datetime_type = lambda x: x if x is None else dateutil.parser.parse(x)
 
@@ -49,8 +50,7 @@ class CheddargetterParser(object):
             [cls.parse(field) for field in element.getchildren()] +
             element.items()
         )
-        class_ = namedtuple(element.tag.capitalize(), item.keys())
-        return class_(**item)
+        return Factory.instantiate(element.tag.capitalize(), **item)
 
     @classmethod
     def parse(cls, root):
@@ -58,7 +58,10 @@ class CheddargetterParser(object):
         if not children:
             value = root.text
             if value is not None:
-                value = cls.CONVERTER.get(root.tag, str)(value.encode("utf8"))
+                convert = cls.CONVERTER.get(root.tag, str)
+                if convert == str:
+                    value = value.encode("utf8")
+                value = convert(value)
             return (root.tag, value)
         else:
             if root.tag == "gatewayAccount":
