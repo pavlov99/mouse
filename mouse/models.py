@@ -1,7 +1,10 @@
 """ Cheddargetter models used in framework."""
-from hashlib import md5
 from collections import namedtuple
+from hashlib import md5
+from urllib import urlencode
+
 from . import six
+from .conf import settings
 
 
 class FactoryMeta(type):
@@ -39,8 +42,32 @@ class CustomerMixin(object):
 
         """
         KEY_LENGTH = 10
-        CHEDDARGETTER_PASSWORD = "*"
         key = md5("{}|{}".format(
-            self.code, CHEDDARGETTER_PASSWORD)).\
+            self.code, settings.PASSWORD)).\
             hexdigest()[:KEY_LENGTH]
         return key
+
+    @property
+    def create_url(self):
+        params = urlencode(dict(code=self.code)) if hasattr(self, "code") \
+            else ""
+        url = "{}/create?{}".format(settings.BASE_URL, params)
+        return url
+
+    @property
+    def update_url(self):
+        params = urlencode(dict(key=self.key, code=self.code))
+        url = "{}/update?{}".format(settings.BASE_URL, params)
+        return url
+
+    @property
+    def cancel_url(self):
+        params = urlencode(dict(key=self.key, code=self.code))
+        url = "{}/cancel?{}".format(settings.BASE_URL, params)
+        return url
+
+    @property
+    def status_url(self):
+        params = urlencode(dict(key=self.key, code=self.code))
+        url = "{}/status?{}".format(settings.BASE_URL, params)
+        return url
