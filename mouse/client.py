@@ -3,7 +3,7 @@ from requests.auth import HTTPBasicAuth
 import logging
 import requests
 
-from .settings import REQUEST_MAP
+from .settings import settings
 from .utils import get_string_kwargs, FrozenDict, get_partly_formated_string
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ class Client(object):
         (
             method["title"].replace(" a ", " ").replace(" ", "_").lower(),
             method
-        ) for method in REQUEST_MAP
+        ) for method in settings.REQUEST_MAP
     ])
 
     def __init__(self, username, password, product_code):

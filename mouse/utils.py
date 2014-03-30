@@ -2,6 +2,16 @@ import collections
 import string
 
 
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(
+                *args, **kwargs)
+        return cls._instances[cls]
+
+
 class FrozenDict(collections.Mapping):
 
     """ Immutable dict."""
@@ -59,5 +69,6 @@ def get_partly_formated_string(s, kwargs):
 
 def namedtuple_as_dict(obj):
     return {
-        k: [namedtuple_as_dict(x) for x in v] if isinstance(v, list) else v for k, v in obj._asdict()
+        k: [namedtuple_as_dict(x) for x in v]
+        if isinstance(v, list) else v for k, v in obj._asdict()
     }
