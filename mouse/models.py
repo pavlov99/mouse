@@ -10,6 +10,7 @@ except ImportError:
 
 from . import six
 from .settings import settings
+from .client import Client
 
 
 class FactoryMeta(type):
@@ -33,8 +34,24 @@ class Factory(object):
         return type(class_name, (cls_base, cls_mixin), {})(**kwargs)
 
 
+class classproperty(property):
+    def __get__(self, obj, type_):
+        return self.__get____get__fget.__get__(None, type_)()
+
+
+class ClientMixin(object):
+    @classproperty
+    @classmethod
+    def client(cls):
+        return Client(
+            settings.USERNAME,
+            settings.PASSWORD,
+            settings.PRODUCT_CODE
+        )
+
+
 @six.add_metaclass(FactoryMeta)
-class CustomerMixin(object):
+class CustomerMixin(ClientMixin):
     @property
     def key(self):
         """ Customer key used in url links.
