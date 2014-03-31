@@ -1,10 +1,15 @@
 """ Cheddargetter models used in framework."""
 from collections import namedtuple
 from hashlib import md5
-from urllib import urlencode
+
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
+
 
 from . import six
-from .conf import settings
+from .settings import settings
 
 
 class FactoryMeta(type):
