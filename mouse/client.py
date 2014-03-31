@@ -27,17 +27,15 @@ class Client(object):
         self.product_code = product_code
 
     def request(self, method, path, **params):
-        # TODO: exception handler
         url = self.BASE_URL + path
         logger.debug("Call {}: {} with params {}".format(method, url, params))
-        print("Call {}: {} with params {}".format(method, url, params))
         response = requests.request(
             method,
             url,
             params=params,
             auth=HTTPBasicAuth(self.username, self.password)
         )
-        #response.raise_for_status()
+        # TODO: exception handler
         return response
 
     @property
