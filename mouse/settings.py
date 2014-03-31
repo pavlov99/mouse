@@ -1,7 +1,20 @@
 """ Settings are based on https://cheddargetter.com/developers"""
-from .utils import FrozenDict
+from .utils import FrozenDict, Singleton
+from . import six
 
-REQUEST_MAP = (
+
+@six.add_metaclass(Singleton)
+class CheddargetterSettings(object):
+    pass
+
+
+settings = CheddargetterSettings()
+
+settings.USERNAME = ""
+settings.PASSWORD = ""
+settings.PRODUCT_CODE = "PYTHON_MOUSE_TESTING"
+settings.BASE_URL = "https://mouse.chargevault.com"
+settings.REQUEST_MAP = (
     FrozenDict(
         title="Get All Pricing Plans",
         doc="Get all pricing plan data from the product with " +
