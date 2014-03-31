@@ -70,5 +70,5 @@ def get_partly_formated_string(s, kwargs):
 def namedtuple_as_dict(obj):
     return {
         k: [namedtuple_as_dict(x) for x in v]
-        if isinstance(v, list) else v for k, v in obj._asdict()
+        if isinstance(v, list) else v for k, v in obj._asdict().items()
     }
