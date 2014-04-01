@@ -4,7 +4,12 @@ import logging
 import requests
 
 from .settings import settings
-from .utils import get_string_kwargs, FrozenDict, get_partly_formated_string
+from .utils import (
+    FrozenDict,
+    classproperty,
+    get_partly_formated_string,
+    get_string_kwargs,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -38,10 +43,11 @@ class Client(object):
         # TODO: exception handler
         return response
 
-    @property
-    def methods(self):
+    @classproperty
+    @classmethod
+    def methods(cls):
         """ Return available methods."""
-        return sorted(self.REQUEST_MAP.keys())
+        return sorted(cls.REQUEST_MAP.keys())
 
     def __getattr__(self, method_name):
         if method_name in self.REQUEST_MAP:
