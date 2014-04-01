@@ -72,3 +72,8 @@ def namedtuple_as_dict(obj):
         k: [namedtuple_as_dict(x) for x in v]
         if isinstance(v, list) else v for k, v in obj._asdict().items()
     }
+
+
+class classproperty(property):
+    def __get__(self, obj, type_):
+        return self.fget.__get__(None, type_)()

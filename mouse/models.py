@@ -11,7 +11,7 @@ except ImportError:
 from . import six
 from .settings import settings
 from .client import Client
-from .utils import namedtuple_as_dict
+from .utils import namedtuple_as_dict, classproperty
 
 
 class FactoryMeta(type):
@@ -35,11 +35,6 @@ class Factory(object):
         methods = {"as_dict": property(namedtuple_as_dict)}
         cls = type(class_name, (cls_base, cls_mixin), methods)
         return cls(**kwargs)
-
-
-class classproperty(property):
-    def __get__(self, obj, type_):
-        return self.fget.__get__(None, type_)()
 
 
 class ClientMixin(object):
@@ -102,3 +97,6 @@ class CustomerMixin(ClientMixin):
         from .parser import CheddargetterParser
         return CheddargetterParser.parse_xml(
             cls.client.get_all_customers().content)[1]
+
+    def delete(self):
+        pass
