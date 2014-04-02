@@ -94,9 +94,7 @@ class CustomerMixin(ClientMixin):
 
     @classmethod
     def get_all(cls):
-        from .parser import CheddargetterParser
-        return CheddargetterParser.parse_xml(
-            cls.client.get_all_customers().content)[1]
+        return cls.client.get_all_customers()
 
     def delete(self):
-        pass
+        return self.client.delete_customer(self.code)
