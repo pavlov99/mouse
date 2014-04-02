@@ -10,6 +10,7 @@ from .utils import (
     get_partly_formated_string,
     get_string_kwargs,
 )
+from .parser import CheddargetterParser
 
 logger = logging.getLogger(__name__)
 
@@ -40,8 +41,12 @@ class Client(object):
             params=params,
             auth=HTTPBasicAuth(self.username, self.password)
         )
-        # TODO: exception handler
-        return response
+        data = CheddargetterParser.parse_xml(response.content)
+        import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
+        if response.status_code not in {200, 302}:
+            return response
+        else:
+            return response
 
     @classproperty
     @classmethod

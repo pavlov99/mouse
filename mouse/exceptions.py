@@ -25,17 +25,20 @@ class CheddargetterException(Exception):
 
     """ Base class for Cheddargetter exceptions."""
 
-    CODE = None
-    AUX_CODE = None
+    CODE = ""
+    AUX_CODE = ""
 
-    def __init__(self, message, id_, code, aux_code):
+    def __init__(self, id, message, code=None, auxCode=None):
+        self.id = id
         self.message = message
-        self.id_ = id_
         self.code = self.CODE or code
-        self.aux_code = aux_code
+        self.auxCode = self.AUX_CODE or auxCode
 
-    def __str__(self):
-        return "[{}] {} ()".format(self.code, self.message, self.aux_code)
+    @classmethod
+    def instantiate(cls, **kwargs):
+        key = (kwargs.get("code"), kwargs.get("auxCode"))
+        class_ = cls.__store__.get(key) or CheddargetterException
+        return class_(**kwargs)
 
 
 class CheddargetterBadRequest(CheddargetterException):

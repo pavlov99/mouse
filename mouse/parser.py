@@ -8,7 +8,6 @@ except ImportError:
 
 from decimal import Decimal
 import dateutil.parser
-from .models import Factory
 
 
 datetime_type = lambda x: x if x is None else dateutil.parser.parse(x)
@@ -50,18 +49,30 @@ class CheddargetterParser(object):
             [cls.parse(field) for field in element.getchildren()] +
             element.items()
         )
-        return Factory.instantiate(element.tag.capitalize(), **item)
+
+        if element.tag == "error":
+            from .exceptions import CheddargetterException
+            message = str(element.text.encode("utf8"))
+            item.update(message=message)
+            return CheddargetterException.instantiate(**item)
+        else:
+            from .models import Factory
+            return Factory.instantiate(element.tag.capitalize(), **item)
 
     @classmethod
     def parse(cls, root):
         children = root.getchildren()
         if not children:
+            if root.tag == "error":
+                return (root.tag, cls.parse_to_class(root))
+
             value = root.text
             if value is not None:
                 convert = cls.CONVERTER.get(root.tag, str)
                 if convert == str:
                     value = value.encode("utf8")
                 value = convert(value)
+
             return (root.tag, value)
         else:
             if root.tag == "gatewayAccount":
@@ -73,10 +84,3 @@ class CheddargetterParser(object):
     @classmethod
     def parse_xml(cls, xml):
         return cls.parse(etree.fromstring(xml))
-
-    @classmethod
-    def parse_error(cls, error):
-        #error.attrib["auxCode"]
-        #error.attrib["id"]
-        #error.attrib["code"]
-        return error.text

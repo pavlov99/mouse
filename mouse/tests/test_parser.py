@@ -12,6 +12,8 @@ class CheddargetterParserTest(unittest.TestCase):
             self.xml_plans = f.read()
         with open("mouse/tests/xml/customers.xml") as f:
             self.xml_customers = f.read()
+        with open("mouse/tests/xml/error.xml") as f:
+            self.xml_error = f.read()
 
     def _check_obj_type(self, obj, type_=None, is_required=None):
         self.assertTrue(
@@ -137,3 +139,12 @@ class CheddargetterParserTest(unittest.TestCase):
                     for transaction in getattr(invoice, "transactions", []):
                         # self._check_obj_type(invoice.)
                         pass
+
+    def test_error_pass(self):
+        tag, error = CheddargetterParser.parse(
+            etree.fromstring(self.xml_error))
+        self.assertEqual(error.id, "73542")
+        self.assertEqual(error.code, "404")
+        self.assertEqual(error.auxCode, "")
+        self.assertEqual(error.message, "Customer not found")
+        self.assertTrue(isinstance(error, Exception))
