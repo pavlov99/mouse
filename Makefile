@@ -1,5 +1,6 @@
 ENV=$(CURDIR)/.env
-PYTHON=$(ENV)/bin/python
+BIN=$(ENV)/bin
+PYTHON=$(BIN)/python
 PYVERSION=$(shell pyversions --default)
 
 RED=\033[0;31m
@@ -40,8 +41,7 @@ upload:
 .PHONY: test
 # target: test - Runs tests
 test: clean
-	@tox -e py33
-	#$(PYTHON) setup.py test
+	NOSE_REDNOSE=1 $(BIN)/nosetests
 
 $(ENV):
 	virtualenv --no-site-packages .env
