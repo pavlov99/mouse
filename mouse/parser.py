@@ -52,8 +52,7 @@ class CheddargetterParser(object):
 
         if element.tag == "error":
             from .exceptions import CheddargetterException
-            message = str(element.text.encode("utf8"))
-            item.update(message=message)
+            item.update(message=element.text)
             return CheddargetterException.instantiate(**item)
         else:
             from .models import Factory
