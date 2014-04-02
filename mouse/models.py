@@ -29,7 +29,8 @@ class FactoryMeta(type):
 class Factory(object):
     @staticmethod
     def instantiate(class_name, **kwargs):
-        cls_mixin_name = str(class_name) + "Mixin"
+        class_name = str(class_name)
+        cls_mixin_name = class_name + "Mixin"
         cls_mixin = FactoryMeta.__store__.get(cls_mixin_name, object)
         cls_base = namedtuple(class_name, kwargs.keys())
         methods = {"as_dict": property(namedtuple_as_dict)}
