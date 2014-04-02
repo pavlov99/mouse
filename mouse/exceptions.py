@@ -25,8 +25,8 @@ class CheddargetterException(Exception):
 
     """ Base class for Cheddargetter exceptions."""
 
-    CODE = ""
-    AUX_CODE = ""
+    CODE = None
+    AUX_CODE = None
 
     def __init__(self, id, message, code=None, auxCode=None):
         self.id = id
@@ -36,7 +36,13 @@ class CheddargetterException(Exception):
 
     @classmethod
     def instantiate(cls, **kwargs):
-        key = (kwargs.get("code"), kwargs.get("auxCode"))
+        code = kwargs.get("code")
+        auxCode = kwargs.get("auxCode")
+        code = int(code) if code else None
+        auxCode = int(auxCode) if auxCode else None
+        kwargs["code"] = code
+        kwargs["auxCode"] = auxCode
+        key = (code, auxCode)
         class_ = cls.__store__.get(key) or CheddargetterException
         return class_(**kwargs)
 

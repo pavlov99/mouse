@@ -144,7 +144,7 @@ class CheddargetterParserTest(unittest.TestCase):
         tag, error = CheddargetterParser.parse(
             etree.fromstring(self.xml_error))
         self.assertEqual(error.id, "73542")
-        self.assertEqual(error.code, "404")
-        self.assertEqual(error.auxCode, "")
+        self.assertEqual(error.code, 404)
+        self.assertEqual(error.auxCode, None)
         self.assertEqual(error.message, "Customer not found")
         self.assertTrue(isinstance(error, Exception))

@@ -41,12 +41,11 @@ class Client(object):
             params=params,
             auth=HTTPBasicAuth(self.username, self.password)
         )
-        data = CheddargetterParser.parse_xml(response.content)
-        import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
+        tag, data = CheddargetterParser.parse_xml(response.content)
         if response.status_code not in {200, 302}:
-            return response
+            raise data
         else:
-            return response
+            return data
 
     @classproperty
     @classmethod
