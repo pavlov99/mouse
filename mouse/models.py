@@ -1,6 +1,7 @@
 """ Cheddargetter models used in framework."""
 from collections import namedtuple
 from hashlib import md5
+import requests
 
 try:
     from urllib import urlencode
@@ -92,6 +93,16 @@ class CustomerMixin(ClientMixin):
         params = urlencode(dict(key=self.key, code=self.code))
         url = "{}/status?{}".format(settings.BASE_URL, params)
         return url
+
+    @property
+    def status(self):
+        """ Return Customer status.
+
+        http://support.cheddargetter.com/kb/hosted-payment-pages/
+            hosted-payment-pages-setup-guide#status
+        :return str status: ('active'|'canceled'|'pending')
+        """
+        return requests.get(self.status_url, verify=False).content
 
     @classmethod
     def get_all(cls):
